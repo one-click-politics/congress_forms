@@ -12,3 +12,6 @@
 /tmp/
 
 /*.gem
+
+.ruby-version
+.ruby-gemset

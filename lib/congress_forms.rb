@@ -3,6 +3,8 @@ require "yaml"
 require "capybara"
 require "selenium/webdriver"
 
+require "webdrivers"
+
 require "congress_forms/version"
 
 require "cwc"

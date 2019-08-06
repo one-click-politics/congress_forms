@@ -18,13 +18,12 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib", "cwc/lib"]
 
   spec.add_development_dependency "pry", "~> 0.11"
-  spec.add_development_dependency "bundler", "~> 1.12"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "dotenv", "~> 2.5"
 
   spec.add_dependency "capybara-selenium", "~> 0.0.6"
-  spec.add_dependency "webdrivers", "~> 3.0"
+  spec.add_dependency "webdrivers", "~> 3.9"
   spec.add_dependency "nokogiri", ">= 1.8.2"
   spec.add_dependency "rest-client", "~> 2.0"
 end

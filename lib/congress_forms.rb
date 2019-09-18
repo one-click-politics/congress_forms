@@ -57,6 +57,7 @@ end
 # end
 
 Capybara.register_driver :headless_chrome do |app|
+  dsfs
   Capybara::Selenium::Driver.load_selenium
   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
     opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))

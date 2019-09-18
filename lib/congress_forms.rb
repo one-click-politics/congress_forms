@@ -46,8 +46,25 @@ Capybara.register_driver :remote do
   )
 end
 
+# Proxy example for reference from https://gist.github.com/antonyh/5338945b37b6b52a98f5
+
+# Capybara.register_driver :selenium_proxy do |app|
+#   profile = Selenium::WebDriver::Firefox::Profile.new
+#   profile.proxy = Selenium::WebDriver::Proxy.new(
+#     :http => "#{CapybaraProxy.proxy.host}:#{CapybaraProxy.proxy.port}",
+#     :ssl => "#{CapybaraProxy.proxy.host}:#{CapybaraProxy.proxy.port}")
+#   Capybara::Selenium::Driver.new(app, :profile => profile)
+# end
+
 Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.load_selenium
+  # TODO: Move the hard-coded host & port to variables that are passed in (or alternative)
+  profile = Selenium::WebDriver::Chrome::Profile.new
+  # Below results in: undefined method `proxy=' for #<Selenium::WebDriver::Chrome::Profile:0x00007f9350a48310>
+  # profile.proxy = Selenium::WebDriver::Proxy.new(
+  #   :http => "proxy.crawlera.com:8010",
+  #   :ssl => "proxy.crawlera.com:8010")
+  binding.pry
   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
     opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
     opts.args << '--headless' unless ENV["HEADLESS"] == "0"

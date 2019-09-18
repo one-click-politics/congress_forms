@@ -25,7 +25,6 @@ end
 
 Capybara.register_driver :chrome do
   Capybara::Selenium::Driver.new(nil, browser: :chrome)
-  binding.pry
 end
 
 Capybara.register_driver :remote do
@@ -77,8 +76,6 @@ Capybara.register_driver :headless_chrome do |app|
   end
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: caps, options: browser_options)
-
-  binding.pry
 end
 
 module CongressForms

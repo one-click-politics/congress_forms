@@ -59,7 +59,7 @@ end
 Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.load_selenium
   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-    opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400  --proxy-server=http://proxy.crawlera.com:8010))
+    opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
     opts.args << '--headless' unless ENV["HEADLESS"] == "0"
     opts.args << '--disable-gpu' if Gem.win_platform?
   end

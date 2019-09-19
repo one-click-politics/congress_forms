@@ -30,7 +30,7 @@ end
 # ENV['HEADLESS'] = '0'
 
 Capybara.register_driver :chrome do
-  Capybara::Selenium::Driver.new(nil, browser: :chrome, options: browser_options)
+  Capybara::Selenium::Driver.new(nil, browser: :chrome)
 end
 
 Capybara.register_driver :remote do

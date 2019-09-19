@@ -44,7 +44,9 @@ describe CongressForms::WebForm do
       actions = [double, double].map(&:as_null_object)
       expect(actions[0]).to receive(:perform).with(browser, values)
       expect(actions[1]).to receive(:perform).with(browser, values)
-      allow(browser).to receive_message_chain(:driver, :quit)
+      # Tried removing the following line to match the base repository,
+      # but the example fails
+      allow(browser).to receive(:quit)
       CongressForms::WebForm.new(actions).fill(values, browser: browser)
     end
   end

@@ -52,16 +52,6 @@ Capybara.register_driver :remote do
   )
 end
 
-# Proxy example for reference from https://gist.github.com/antonyh/5338945b37b6b52a98f5
-
-# Capybara.register_driver :selenium_proxy do |app|
-#   profile = Selenium::WebDriver::Firefox::Profile.new
-#   profile.proxy = Selenium::WebDriver::Proxy.new(
-#     :http => "#{CapybaraProxy.proxy.host}:#{CapybaraProxy.proxy.port}",
-#     :ssl => "#{CapybaraProxy.proxy.host}:#{CapybaraProxy.proxy.port}")
-#   Capybara::Selenium::Driver.new(app, :profile => profile)
-# end
-
 # NOTES -------------------------------------------------------------------------------------------------
 
 # Go to https://mitmproxy.org/ and download the binarys. Extract them to /~ or
@@ -89,17 +79,6 @@ end
 
 # Capybara.register_driver :headless_chrome do |app|
 #   Capybara::Selenium::Driver.load_selenium
-#   # TODO: Move the hard-coded host & port to variables that are passed in (or alternative)
-#
-#   # Below results in: undefined method `proxy=' for #<Selenium::WebDriver::Chrome::Profile:0x00007f9350a48310>
-#   # profile = Selenium::WebDriver::Chrome::Profile.new
-#   # profile.proxy = Selenium::WebDriver::Proxy.new(
-#   #   :http => "proxy.crawlera.com:8010",
-#   #   :ssl => "proxy.crawlera.com:8010")
-#
-
-#   proxy = Selenium::WebDriver::Proxy.new(:http => "http://dc5106a9eee74ef8896bbe4599e4c332:@proxy.crawlera.com:8010")
-#   caps = Selenium::WebDriver::Remote::Capabilities.chrome(:proxy => proxy)
 #
 #   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
 #     opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
@@ -107,7 +86,7 @@ end
 #     opts.args << '--disable-gpu' if Gem.win_platform?
 #   end
 #
-#   Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: caps, options: browser_options)
+#   Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
 # end
 
 module CongressForms

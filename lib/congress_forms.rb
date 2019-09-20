@@ -22,7 +22,6 @@ unless ENV["CWC_API_KEY"].nil?
   )
 end
 
-# ENV['HEADLESS'] = '0'
 
 Capybara.register_driver :chrome do
   Capybara::Selenium::Driver.new(nil, browser: :chrome)
@@ -47,50 +46,16 @@ Capybara.register_driver :remote do
   )
 end
 
-# NOTES -------------------------------------------------------------------------------------------------
-
-# Go to https://mitmproxy.org/ and download the binarys. Extract them to /~ or
-# wherever makes sense for the deployment.
-
-# Run the following command to start a MITM server (assuming mitmdump was extracted to /~)
-# ~/mitmdump -p 9000 --mode upstream:http://proxy.crawlera.com:8010 --set upstream_auth=dc5106a9eee74ef8896bbe4599e4c332: --ssl-insecure
-
-# If port 9000 is not available, modify the above command. You will also need
-# to change the line below for proxy_server
-
-# end NOTES ---------------------------------------------------------------------------------------------
-
 Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.load_selenium
   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
     opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
-    opts.args << '--proxy-server=http://localhost:9000'
     opts.args << '--headless' unless ENV["HEADLESS"] == "0"
     opts.args << '--disable-gpu' if Gem.win_platform?
   end
 
-  client = Selenium::WebDriver::Remote::Http::Default.new
-  client.timeout = 180
-
-  Capybara::Selenium::Driver.new(
-    app,
-    browser: :chrome,
-    options: browser_options,
-    http_client: client
-  )
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
 end
-
-# Capybara.register_driver :headless_chrome do |app|
-#   Capybara::Selenium::Driver.load_selenium
-#
-#   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-#     opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
-#     opts.args << '--headless' unless ENV["HEADLESS"] == "0"
-#     opts.args << '--disable-gpu' if Gem.win_platform?
-#   end
-#
-#   Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
-# end
 
 module CongressForms
   Error = Class.new(Exception) do

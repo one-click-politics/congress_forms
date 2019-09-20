@@ -30,7 +30,7 @@ end
 # ENV['HEADLESS'] = '0'
 
 Capybara.register_driver :chrome do
-  Capybara::Selenium::Driver.new(nil, browser: :chrome, options: browser_options)
+  Capybara::Selenium::Driver.new(nil, browser: :chrome)
 end
 
 Capybara.register_driver :remote do
@@ -67,7 +67,7 @@ end
 # Go to https://mitmproxy.org/ and download the binarys. Extract them to /~ or
 # wherever makes sense for the deployment.
 
-# Run the following command to start a MITM server (assuming mitmdump was extracted to /~) 
+# Run the following command to start a MITM server (assuming mitmdump was extracted to /~)
 # ~/mitmdump -p 9000 --mode upstream:http://proxy.crawlera.com:8010 --set upstream_auth=dc5106a9eee74ef8896bbe4599e4c332: --ssl-insecure
 
 # If port 9000 is not available, modify the above command. You will also need
@@ -84,6 +84,8 @@ Capybara.register_driver :headless_chrome do |app|
     opts.args << '--disable-gpu' if Gem.win_platform?
   end
 
+
+  
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
 end
 

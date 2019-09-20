@@ -69,9 +69,15 @@ Capybara.register_driver :headless_chrome do |app|
     opts.args << '--disable-gpu' if Gem.win_platform?
   end
 
+  client = Selenium::WebDriver::Remote::Http::Default.new
+  client.timeout = 180
 
-  
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+  Capybara::Selenium::Driver.new(
+    app,
+    browser: :chrome,
+    options: browser_options,
+    http_client: client
+  )
 end
 
 # Capybara.register_driver :headless_chrome do |app|

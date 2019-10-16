@@ -10,6 +10,8 @@ require "congress_forms/version"
 
 require "cwc"
 
+require_relative 'proxy_roller'
+
 unless ENV["CWC_API_KEY"].nil?
   Cwc::Client.configure(
     api_key: ENV["CWC_API_KEY"],
@@ -21,8 +23,6 @@ unless ENV["CWC_API_KEY"].nil?
     delivery_agent_contact_phone: ENV["CWC_DELIVERY_AGENT_CONTACT_PHONE"]
   )
 end
-
-# ENV['HEADLESS'] = '0'
 
 Capybara.register_driver :chrome do
   Capybara::Selenium::Driver.new(nil, browser: :chrome)
@@ -47,35 +47,25 @@ Capybara.register_driver :remote do
   )
 end
 
-# NOTES -------------------------------------------------------------------------------------------------
-
-# Go to https://mitmproxy.org/ and download the binarys. Extract them to /~ or
-# wherever makes sense for the deployment.
-
-# Run the following command to start a MITM server (assuming mitmdump was extracted to /~)
-# ~/mitmdump -p 9000 --mode upstream:http://proxy.crawlera.com:8010 --set upstream_auth=dc5106a9eee74ef8896bbe4599e4c332: --ssl-insecure
-# /home/deploy/mitm/mitmdump -p 9000 --mode upstream:http://proxy.crawlera.com:8010 --set upstream_auth=dc5106a9eee74ef8896bbe4599e4c332: --ssl-insecure
-# If port 9000 is not available, modify the above command. You will also need
-# to change the line below for proxy_server
-
-# end NOTES ---------------------------------------------------------------------------------------------
-
-
 Capybara.register_driver :headless_chrome do |app|
+  proxy = ProxyRoller.new.get_random
+
   Capybara::Selenium::Driver.load_selenium
 
   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
     opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
     # opts.args << '--proxy-server=http://127.0.0.1:3128'
-    opts.args << '--proxy-server=http://localhost:9000'
+    # opts.args << '--proxy-server=http://localhost:9000'
+    # opts.args << '--proxy-server=https://96.80.89.613213219:812312321080'
+    # opts.args << '--proxy-server=http://193.59.19.22:4145'``
+    # opts.args << '--proxy-server=http://47.56.169.133:8080'
+    # opts.args << "--proxy-server=http://#{proxy}"
     opts.args << '--headless' unless ENV["HEADLESS"] == "0"
     opts.args << '--disable-gpu' if Gem.win_platform?
   end
 
   client = Selenium::WebDriver::Remote::Http::Default.new
-  # client.open_timeout = 180
-
-  # binding.pry
+  # client.open_timeout = 60
 
   Capybara::Selenium::Driver.new(
     app,

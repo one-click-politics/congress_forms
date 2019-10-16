@@ -1,3 +1,3 @@
 module CongressForms
-  VERSION = "0.1.56"
+  VERSION = "0.2.39"
 end

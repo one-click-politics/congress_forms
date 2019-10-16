@@ -82,8 +82,9 @@ Capybara.register_driver :headless_chrome do |app|
     app,
     browser: :chrome,
     options: browser_options,
-    http_client: client,
-    desired_capabilities: desired_capabilities
+    http_client: client
+    # ,
+    # desired_capabilities: desired_capabilities
   )
 end
 

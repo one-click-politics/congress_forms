@@ -67,11 +67,19 @@ Capybara.register_driver :headless_chrome do |app|
   client = Selenium::WebDriver::Remote::Http::Default.new
   # client.open_timeout = 60
 
+  desired_capabilities = nil
+
+  if (chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil))
+    chrome_opts = { "chromeOptions" => { "binary" => chrome_bin } }
+    desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(chrome_opts)
+  end
+
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
     options: browser_options,
-    http_client: client
+    http_client: client,
+    desired_capabilities: desired_capabilities
   )
 end
 

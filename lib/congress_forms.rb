@@ -50,8 +50,12 @@ end
 Capybara.register_driver :headless_chrome do |app|
   proxy = ProxyRoller.new.get_random
 
-  Selenium::WebDriver::Chrome.driver_path = ENV.fetch('GOOGLE_CHROME_SHIM')
+  # Selenium::WebDriver::Chrome.driver_path = ENV.fetch('GOOGLE_CHROME_SHIM')
   Capybara::Selenium::Driver.load_selenium
+
+  options = Selenium::WebDriver::Chrome::Options.new
+  chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+  options.binary = chrome_bin_path if chrome_bin_path # only use custom path on heroku
 
   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
     opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
@@ -69,7 +73,8 @@ Capybara.register_driver :headless_chrome do |app|
     app,
     browser: :chrome,
     options: browser_options,
-    http_client: client
+    http_client: client,
+    options: options
   )
 end
 

@@ -53,21 +53,14 @@ Capybara.register_driver :headless_chrome do |app|
   # Selenium::WebDriver::Chrome.driver_path = ENV.fetch('GOOGLE_CHROME_SHIM')
   Capybara::Selenium::Driver.load_selenium
 
-
   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
     opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
-    # opts.args << '--proxy-server=http://localhost:9000'
     opts.args << '--proxy-server=http://localhost:9000'
+    opts.args << '--proxy-server=http://' + proxy
+    # opts.args << '--proxy-server=http://localhost:9000'
     opts.args << '--headless' unless ENV["HEADLESS"] == "0"
     opts.args << '--disable-gpu' if Gem.win_platform?
-    # opts.args << "--binary_location=#{ENV.fetch('GOOGLE_CHROME_SHIM')}"
   end
-
-  chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM')
-  options.binary = chrome_bin_path
-   # if chrome_bin_path # only use custom path on heroku
-
-  client = Selenium::WebDriver::Remote::Http::Default.new(driver: ENV.fetch('GOOGLE_CHROME_SHIM'))
 
   Capybara::Selenium::Driver.new(
     app,

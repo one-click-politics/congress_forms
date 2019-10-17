@@ -47,28 +47,42 @@ Capybara.register_driver :remote do
   )
 end
 
+# Capybara.register_driver :headless_chrome do |app|
+#   proxy = ProxyRoller.new.get_random
+#
+#   # Selenium::WebDriver::Chrome.driver_path = ENV.fetch('GOOGLE_CHROME_SHIM')
+#   Capybara::Selenium::Driver.load_selenium
+#
+#   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+#     opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
+#     opts.args << '--proxy-server=http://localhost:9000'
+#     opts.args << '--proxy-server=http://' + proxy
+#     # opts.args << '--proxy-server=http://localhost:9000'
+#     opts.args << '--headless' unless ENV["HEADLESS"] == "0"
+#     opts.args << '--disable-gpu' if Gem.win_platform?
+#   end
+#
+#   Capybara::Selenium::Driver.new(
+#     app,
+#     browser: :chrome,
+#     options: browser_options,
+#     http_client: client
+#   )
+# end
+
+# options[:phantomjs] = phantomjs if phantomjs
+
 Capybara.register_driver :headless_chrome do |app|
-  proxy = ProxyRoller.new.get_random
+  phantomjs_options: ['--load-images=no', '--ignore-ssl-errors=yes',
+                      '--ssl-protocol=any', '--web-security=false',
+                      '--debug=false']
 
-  # Selenium::WebDriver::Chrome.driver_path = ENV.fetch('GOOGLE_CHROME_SHIM')
-  Capybara::Selenium::Driver.load_selenium
+  options = {timeout: 180, debug: true, js_errors: true,
+             phantomjs_options: phantomjs_options}
 
-  browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-    opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
-    opts.args << '--proxy-server=http://localhost:9000'
-    opts.args << '--proxy-server=http://' + proxy
-    # opts.args << '--proxy-server=http://localhost:9000'
-    opts.args << '--headless' unless ENV["HEADLESS"] == "0"
-    opts.args << '--disable-gpu' if Gem.win_platform?
-  end
-
-  Capybara::Selenium::Driver.new(
-    app,
-    browser: :chrome,
-    options: browser_options,
-    http_client: client
-  )
+  Capybara::Poltergeist::Driver.new(app, options)
 end
+
 
 # Capybara.register_driver :headless_chrome do |app|
 #   Capybara::Selenium::Driver.load_selenium

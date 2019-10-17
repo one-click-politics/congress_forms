@@ -54,38 +54,20 @@ Capybara.register_driver :headless_chrome do |app|
 
   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
     opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
-    opts.args << "--binary=#{ENV.fetch('GOOGLE_CHROME_SHIM')}"
-    # opts.args << '--proxy-server=http://127.0.0.1:3128'
     # opts.args << '--proxy-server=http://localhost:9000'
-    # opts.args << '--proxy-server=https://96.80.89.613213219:812312321080'
-    # opts.args << '--proxy-server=http://193.59.19.22:4145'``
-    # opts.args << '--proxy-server=http://47.56.169.133:8080'
-    # opts.args << "--proxy-server=http://#{proxy}"
+    opts.args << '--proxy-server=http://localhost:9000'
     opts.args << '--headless' unless ENV["HEADLESS"] == "0"
     opts.args << '--disable-gpu' if Gem.win_platform?
+    opts.args << "--binary_location=#{ENV.fetch('GOOGLE_CHROME_SHIM')}"
   end
 
   client = Selenium::WebDriver::Remote::Http::Default.new
-
-  # client.open_timeout = 60
-
-  # desired_capabilities = nil
-  #
-  # if (chrome_bin = ENV['GOOGLE_CHROME_SHIM'])
-    chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM')
-    # chrome_options = new ChromeOptions
-
-    chrome_opts = { "chromeOptions" => { "binary" => chrome_bin } }
-    desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(chrome_opts)
-  # end
 
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
     options: browser_options,
-    http_client: client,
-    driver: ENV.fetch('GOOGLE_CHROME_SHIM')
-    # desired_capabilities: desired_capabilities
+    http_client: client
   )
 end
 

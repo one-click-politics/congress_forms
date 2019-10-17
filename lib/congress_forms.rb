@@ -63,7 +63,7 @@ Capybara.register_driver :headless_chrome do |app|
     # opts.args << "--binary_location=#{ENV.fetch('GOOGLE_CHROME_SHIM')}"
   end
 
-  chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM')
+  chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM') + 'asdfasdf'
   browser_options.binary = chrome_bin_path
    # if chrome_bin_path # only use custom path on heroku
 

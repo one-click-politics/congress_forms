@@ -63,11 +63,11 @@ Capybara.register_driver :headless_chrome do |app|
     # opts.args << "--binary_location=#{ENV.fetch('GOOGLE_CHROME_SHIM')}"
   end
 
-  chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM') + 'asdfasdf'
-  browser_options.binary = chrome_bin_path
+  chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM')
+  options.binary = chrome_bin_path
    # if chrome_bin_path # only use custom path on heroku
 
-  client = Selenium::WebDriver::Remote::Http::Default.new
+  client = Selenium::WebDriver::Remote::Http::Default.new(driver: ENV.fetch('GOOGLE_CHROME_SHIM'))
 
   Capybara::Selenium::Driver.new(
     app,

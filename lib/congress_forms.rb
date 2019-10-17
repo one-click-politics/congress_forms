@@ -73,9 +73,9 @@ end
 # options[:phantomjs] = phantomjs if phantomjs
 
 Capybara.register_driver :headless_chrome do |app|
-  phantomjs_options: ['--load-images=no', '--ignore-ssl-errors=yes',
-                      '--ssl-protocol=any', '--web-security=false',
-                      '--debug=false']
+  phantomjs_options = ['--load-images=no', '--ignore-ssl-errors=yes',
+                       '--ssl-protocol=any', '--web-security=false',
+                       '--debug=false']
 
   options = {timeout: 180, debug: true, js_errors: true,
              phantomjs_options: phantomjs_options}

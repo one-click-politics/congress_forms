@@ -50,6 +50,7 @@ end
 Capybara.register_driver :headless_chrome do |app|
   proxy = ProxyRoller.new.get_random
 
+  Selenium::WebDriver::Chrome.driver_path = ENV.fetch('GOOGLE_CHROME_SHIM')
   Capybara::Selenium::Driver.load_selenium
 
   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
@@ -58,8 +59,9 @@ Capybara.register_driver :headless_chrome do |app|
     opts.args << '--proxy-server=http://localhost:9000'
     opts.args << '--headless' unless ENV["HEADLESS"] == "0"
     opts.args << '--disable-gpu' if Gem.win_platform?
-    opts.args << "--binary_location=#{ENV.fetch('GOOGLE_CHROME_SHIM')}"
+    # opts.args << "--binary_location=#{ENV.fetch('GOOGLE_CHROME_SHIM')}"
   end
+
 
   client = Selenium::WebDriver::Remote::Http::Default.new
 

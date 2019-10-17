@@ -54,7 +54,7 @@ Capybara.register_driver :headless_chrome do |app|
 
   browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
     opts.args.merge(%w(--new-window --no-sandbox --disable-dev-shm-usage  --window-size=1200,1400))
-    # opts.args << "--binary=#{ENV.fetch('GOOGLE_CHROME_SHIM')}"
+    opts.args << "--binary=#{ENV.fetch('GOOGLE_CHROME_SHIM')}"
     # opts.args << '--proxy-server=http://127.0.0.1:3128'
     # opts.args << '--proxy-server=http://localhost:9000'
     # opts.args << '--proxy-server=https://96.80.89.613213219:812312321080'

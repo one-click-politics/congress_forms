@@ -73,7 +73,7 @@ Capybara.register_driver :headless_chrome do |app|
   #
   # if (chrome_bin = ENV['GOOGLE_CHROME_SHIM'])
     chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM')
-    chrome_options = new ChromeOptions
+    # chrome_options = new ChromeOptions
 
     chrome_opts = { "chromeOptions" => { "binary" => chrome_bin } }
     desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(chrome_opts)

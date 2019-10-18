@@ -65,6 +65,7 @@ module CongressForms
     class Visit < Base
       def perform(browser, params={})
         browser.visit(value)
+        binding.pry
       end
     end
 
